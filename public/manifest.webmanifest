@@ -1,0 +1,17 @@
+{
+  "name": "RadioRang — One Station, Any Vibe",
+  "short_name": "RadioRang",
+  "description": "Anyone can spin up a themed station; every device that joins hears the same track, in sync, even on flaky wifi.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14100c",
+  "theme_color": "#14100c",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23ffb347'/%3E%3Ccircle cx='50' cy='50' r='18' fill='%2314100c'/%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

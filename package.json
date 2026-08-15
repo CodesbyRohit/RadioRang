@@ -1,0 +1,23 @@
+{
+  "name": "radio-rang",
+  "version": "1.0.0",
+  "description": "One Station, Any Vibe — anyone can spin up a themed station; every device that joins hears the same track, in sync, even on flaky wifi.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "build": "tsc lib/sync/clock.ts --module esnext --target es2022 --moduleResolution bundler --outDir lib/sync --declaration",
+    "test": "node --test lib/sync/clock.test.ts"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.62.1",
+    "typescript": "^7.0.2"
+  }
+}
