@@ -7,6 +7,14 @@ import crypto from 'crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
+// Production config (all optional):
+//   PORT               — listen port
+//   RR_ALLOWED_ORIGINS — comma-separated origins allowed to call the API/WS
+//                        cross-origin (used when the frontend is hosted
+//                        separately, e.g. on Vercel). Empty = allow any origin
+//                        (fine for a demo; tighten in production).
+const ALLOWED_ORIGINS = (process.env.RR_ALLOWED_ORIGINS || '')
+  .split(',').map((s) => s.trim()).filter(Boolean);
 
 /* ------------------------------------------------------------------ *
  *  Curated demo playlist (public-domain / free-to-use audio).
@@ -63,6 +71,7 @@ function publicState(station, serverTime = Date.now()) {
     startedAtEpochMs: station.startedAtEpochMs,
     positionMs: elapsedMs,
     serverTime,
+    memberCount: station.members.size,
   };
 }
 
@@ -103,10 +112,62 @@ function pushState(station) {
  *  HTTP app
  * ------------------------------------------------------------------ */
 const app = express();
+app.disable('x-powered-by');
 app.use(express.json());
+
+// Minimal security headers. The CSP intentionally allows arbitrary https
+// audio/WS endpoints because station creators may paste any direct audio URL
+// and the realtime server may live on another host — override with RR_CSP.
+const CSP = process.env.RR_CSP || [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self'",
+  "img-src 'self' data:",
+  "media-src 'self' blob: https: http:",
+  "connect-src 'self' wss: ws: https: http:",
+  "frame-src https://open.spotify.com",
+  "font-src 'self' data:",
+  "frame-ancestors 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
+
+app.use((req, res, next) => {
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.set('X-Frame-Options', 'SAMEORIGIN');
+  res.set('Content-Security-Policy', CSP);
+  next();
+});
+
+// CORS — needed when the frontend is hosted separately from this server
+// (e.g. static frontend on Vercel + this realtime server elsewhere).
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && (ALLOWED_ORIGINS.length === 0 || ALLOWED_ORIGINS.includes(origin))) {
+    res.set('Access-Control-Allow-Origin', origin);
+    res.set('Vary', 'Origin');
+  }
+  res.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }));
 // The canonical station-clock module lives in lib/sync (clock.ts + compiled clock.js).
+// (The production build also copies it into public/lib so static-only hosts like
+// Vercel can serve it without this mount.)
 app.use('/lib', express.static(path.join(__dirname, 'lib')));
+
+// SPA fallback: /station/<code> (and /station/) must serve the app shell so
+// direct navigation, refresh, and share links all work.
+app.get(['/station', '/station/'], (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+app.get('/station/:code', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.get('/api/tracks', (_req, res) => {
   res.json(CURATED_TRACKS.map((t, i) => ({ ...t, id: 'curated-' + i })));
@@ -132,7 +193,16 @@ const server = http.createServer(app);
 const wss = new WebSocketServer({ server, path: '/ws' });
 
 wss.on('connection', (ws, req) => {
-  const url = new URL(req.url, 'http://localhost');
+  // Mirror the HTTP origin allowlist on the socket. Requests with no Origin
+  // header (non-browser clients) are permitted; a browser from a disallowed
+  // origin is rejected.
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.length > 0 && !ALLOWED_ORIGINS.includes(origin)) {
+    ws.close(1008, 'origin not allowed');
+    return;
+  }
+
+  const url = new URL(req.url, 'http://internal');
   const code = (url.searchParams.get('code') || '').toUpperCase();
   const name = (url.searchParams.get('name') || '').slice(0, 30);
 

@@ -4,10 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#14100c" />
+  <meta name="description" content="RadioRang — One Station, Any Vibe. Spin up a themed music station and everyone who joins hears the same track, in sync, even on flaky wifi." />
   <title>RadioRang — One Station, Any Vibe</title>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RadioRang" />
+  <meta property="og:title" content="RadioRang — One Station, Any Vibe" />
+  <meta property="og:description" content="Spin up a themed music station; every device that joins hears the same track, in sync — even on flaky wifi. 🇮🇳 Sounds of Azaadi included." />
+  <meta property="og:image" content="/icon.svg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="RadioRang — One Station, Any Vibe" />
+  <meta name="twitter:description" content="One station, any vibe — everyone hears the same song at the same moment." />
+  <meta name="twitter:image" content="/icon.svg" />
+  <!-- Canonical is updated at runtime from the deployment origin (never a tunnel URL). -->
+  <link rel="canonical" href="/" />
+
   <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23ffb347'/%3E%3Ccircle cx='50' cy='50' r='18' fill='%2314100c'/%3E%3C/svg%3E" />
 </head>
 <body>
   <div class="app">
@@ -23,10 +38,10 @@
       <div class="home-grid">
         <div class="card">
           <h2>🎧 Spin up a station</h2>
-          <label class="field"><span>Station name</span>
+          <label class="field" for="create-name"><span>Station name</span>
             <input id="create-name" placeholder="e.g. Trucker's Dhaba" maxlength="60" />
           </label>
-          <label class="field"><span>Vibe / theme</span>
+          <label class="field" for="create-theme"><span>Vibe / theme</span>
             <input id="create-theme" placeholder="e.g. 2000s Bollywood, Bhojpuri classics…" maxlength="60" />
           </label>
           <div class="chips">
@@ -42,7 +57,7 @@
         <div class="card">
           <h2>📻 Join a station</h2>
           <p class="muted">Got a 6-letter code or a link from a friend?</p>
-          <label class="field"><span>Station code</span>
+          <label class="field" for="join-code"><span>Station code</span>
             <input id="join-code" placeholder="e.g. A1B2C3" maxlength="6" autocomplete="off" />
           </label>
           <button id="btn-join" class="btn btn--primary btn--block">Join</button>
@@ -50,12 +65,15 @@
           <hr class="sep" />
           <p class="muted">What should people call you?</p>
           <div class="row">
+            <label class="sr-only" for="your-name">Your display name</label>
             <input id="your-name" placeholder="Your name" maxlength="30" />
             <button id="btn-save-name" class="btn btn--ghost">Save</button>
           </div>
         </div>
-      <section id="azaadi" class="card azaadi">
-        <h2>🇮🇳 Sounds of Azaadi</h2>
+      </div>
+
+      <section id="azaadi" class="card azaadi" aria-labelledby="azaadi-title">
+        <h2 id="azaadi-title">🇮🇳 Sounds of Azaadi</h2>
         <p class="muted azaadi__intro">
           Eight songs that carried a nation — from the 1962 war years to modern anthems.
           We never host audio: each track plays on the platform you choose, on your tap.
@@ -67,37 +85,45 @@
     <!-- ============ STATION ============ -->
     <section id="view-station" class="view hidden">
       <header class="station-head">
-        <button id="btn-back" class="btn btn--ghost btn--sm" title="Back">← Home</button>
+        <button id="btn-back" class="btn btn--ghost btn--sm" title="Back to home">← Home</button>
         <div class="station-head__meta">
           <h1 id="station-title">Station</h1>
-          <p class="muted"><span id="station-theme"></span> · code <button id="btn-copy" class="code-chip">#<span id="station-code"></span> ⧉</button></p>
+          <p class="muted"><span id="station-theme"></span> · code <button id="btn-copy" class="code-chip" title="Copy the share link">#<span id="station-code"></span> ⧉</button></p>
         </div>
         <div class="station-head__right">
-          <span id="sync-badge" class="sync-badge hidden"></span>
-          <span id="conn-pill" data-state="connecting">● Connecting…</span>
+          <span id="sync-badge" class="sync-badge hidden" role="status"></span>
+          <span id="conn-pill" data-state="connecting" role="status">● Connecting…</span>
           <span id="member-count" class="members-pill" title="people in the station">0 👥</span>
         </div>
       </header>
+
+      <div id="station-error" class="station-error card hidden" role="alert">
+        <h2>⚠️ Station unreachable</h2>
+        <p id="station-error-text" class="muted"></p>
+        <div class="row">
+          <button id="station-error-back" class="btn btn--primary">← Back to home</button>
+        </div>
+      </div>
 
       <div class="station-grid">
         <div id="now-playing" class="card now-playing">
           <h2>Now playing</h2>
           <div class="np">
-            <div id="vinyl" class="vinyl"><div class="vinyl__hole"></div></div>
+            <div id="vinyl" class="vinyl" aria-hidden="true"><div class="vinyl__hole"></div></div>
             <div class="np__body">
               <div class="np__title">Nothing on the air</div>
               <div class="np__sub muted">Add a track to start the vibe</div>
               <div class="np__meta">
                 <span id="elapsed" class="np__elapsed">00:00</span>
-                <span class="muted" id="track-loading">… buffering</span>
+                <span class="muted" id="track-loading" role="status">… buffering</span>
               </div>
-              <div class="progress"><div id="progress" class="progress__bar"></div></div>
+              <div class="progress" role="progressbar" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress" class="progress__bar"></div></div>
             </div>
           </div>
           <div class="controls">
-            <button id="btn-prev" class="btn btn--ghost" disabled>⏮</button>
+            <button id="btn-prev" class="btn btn--ghost" disabled title="Previous track">⏮</button>
             <button id="btn-play" class="btn btn--primary" disabled>▶ Play</button>
-            <button id="btn-next" class="btn btn--ghost" disabled>⏭</button>
+            <button id="btn-next" class="btn btn--ghost" disabled title="Next track">⏭</button>
             <button id="btn-bump" class="btn btn--ghost" title="Skip everyone forward 10s (demo re-sync)">⇥ +10s</button>
           </div>
         </div>
@@ -107,9 +133,12 @@
           <ul id="queue-list" class="queue"></ul>
           <p id="queue-empty" class="muted">The airwaves are empty. Add a track below — everyone in the station will hear it in sync.</p>
           <div class="add-track">
+            <label class="sr-only" for="track-url">Direct audio link</label>
             <input id="track-url" placeholder="Direct audio link (mp3/ogg/m4a/webm/wav)" />
             <div class="row">
+              <label class="sr-only" for="track-title">Track title</label>
               <input id="track-title" placeholder="Track title" />
+              <label class="sr-only" for="track-artist">Artist</label>
               <input id="track-artist" placeholder="Artist" />
             </div>
             <button id="btn-add-track" class="btn btn--primary btn--block">Add to queue</button>
@@ -130,18 +159,21 @@
     </section>
 
     <!-- ============ OVERLAYS ============ -->
-    <div id="unmute-overlay" class="overlay hidden">
+    <div id="unmute-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="unmute-title">
       <div class="overlay__card">
-        <div class="vinyl vinyl--lg spin"><div class="vinyl__hole"></div></div>
-        <h2>Tap to hear the station</h2>
+        <div class="vinyl vinyl--lg spin" aria-hidden="true"><div class="vinyl__hole"></div></div>
+        <h2 id="unmute-title">Tap to hear the station</h2>
         <p class="muted">Your browser needs one tap before audio can start.</p>
         <button id="btn-unmute" class="btn btn--primary">🔊 Join the sound</button>
       </div>
     </div>
 
-    <div id="toast" class="toast hidden"></div>
+    <div id="toast" class="toast hidden" role="status"></div>
   </div>
 
+  <!-- Runtime deployment config — generated by scripts/gen-config.js.
+       Plain script so it is available to the module below. Empty = same origin. -->
+  <script src="/rr-config.js"></script>
   <script type="module" src="/app.js"></script>
 </body>
 </html>
