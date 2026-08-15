@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#14100c" />
-  <meta name="description" content="RadioRang — One Station, Any Vibe. Spin up a themed music station and everyone who joins hears the same track, in sync, even on flaky wifi." />
-  <title>RadioRang — One Station, Any Vibe</title>
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="80 Years of Freedom — an Independence Day tribute to the journey from 1857 to 1947, the people who made it, and the songs that carried a nation. 15 August 2026." />
+  <title>80 Years of Freedom — India at 80 | 15 August 2026</title>
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="RadioRang" />
-  <meta property="og:title" content="RadioRang — One Station, Any Vibe" />
-  <meta property="og:description" content="Spin up a themed music station; every device that joins hears the same track, in sync — even on flaky wifi. 🇮🇳 Sounds of Azaadi included." />
+  <meta property="og:site_name" content="80 Years of Freedom" />
+  <meta property="og:title" content="80 Years of Freedom — India at 80" />
+  <meta property="og:description" content="The freedom movement in eight moments, the fighters behind it, the words that carried it, and the songs of a nation. 🇮🇳" />
   <meta property="og:image" content="/icon.svg" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="RadioRang — One Station, Any Vibe" />
-  <meta name="twitter:description" content="One station, any vibe — everyone hears the same song at the same moment." />
+  <meta name="twitter:title" content="80 Years of Freedom — India at 80" />
+  <meta name="twitter:description" content="From the midnight hour of 1947 to the India of today." />
   <meta name="twitter:image" content="/icon.svg" />
-  <!-- Canonical is updated at runtime from the deployment origin (never a tunnel URL). -->
   <link rel="canonical" href="/" />
 
   <link rel="manifest" href="/manifest.webmanifest" />
@@ -25,155 +24,122 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <div class="app">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- ============ HOME ============ -->
-    <section id="view-home" class="view">
-      <header class="brand">
-        <div class="brand__disc"><div class="brand__disc-inner"></div></div>
-        <h1>Radio<span>Rang</span></h1>
-        <p class="tagline">One station, any vibe — everyone hears the same song, at the same moment,<br/>even when the wifi gives up.</p>
-      </header>
-
-      <div class="home-grid">
-        <div class="card">
-          <h2>🎧 Spin up a station</h2>
-          <label class="field" for="create-name"><span>Station name</span>
-            <input id="create-name" placeholder="e.g. Trucker's Dhaba" maxlength="60" />
-          </label>
-          <label class="field" for="create-theme"><span>Vibe / theme</span>
-            <input id="create-theme" placeholder="e.g. 2000s Bollywood, Bhojpuri classics…" maxlength="60" />
-          </label>
-          <div class="chips">
-            <button class="vibe-chip" data-vibe="2000s Bollywood">2000s Bollywood</button>
-            <button class="vibe-chip" data-vibe="Northeast indie">Northeast indie</button>
-            <button class="vibe-chip" data-vibe="Bhojpuri classics">Bhojpuri classics</button>
-            <button class="vibe-chip" data-vibe="Highway nights">Highway nights</button>
-            <button class="vibe-chip" data-vibe="Chai break">Chai break</button>
-          </div>
-          <button id="btn-create" class="btn btn--primary btn--block">Create station</button>
-        </div>
-
-        <div class="card">
-          <h2>📻 Join a station</h2>
-          <p class="muted">Got a 6-letter code or a link from a friend?</p>
-          <label class="field" for="join-code"><span>Station code</span>
-            <input id="join-code" placeholder="e.g. A1B2C3" maxlength="6" autocomplete="off" />
-          </label>
-          <button id="btn-join" class="btn btn--primary btn--block">Join</button>
-
-          <hr class="sep" />
-          <p class="muted">What should people call you?</p>
-          <div class="row">
-            <label class="sr-only" for="your-name">Your display name</label>
-            <input id="your-name" placeholder="Your name" maxlength="30" />
-            <button id="btn-save-name" class="btn btn--ghost">Save</button>
-          </div>
-        </div>
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="main">
+    <div class="hero__tricolor" aria-hidden="true"><span class="hero__band hero__band--saffron"></span><span class="hero__band hero__band--white"></span><span class="hero__band hero__band--green"></span></div>
+    <div class="hero__inner">
+      <div class="chakra" aria-hidden="true">
+        <svg viewBox="0 0 100 100" role="img" aria-label="Ashoka Chakra">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#ff9933" stroke-width="2.5"/>
+          <circle cx="50" cy="50" r="6" fill="#ff9933"/>
+          <g stroke="#ff9933" stroke-width="2">
+            <line x1="50" y1="6" x2="50" y2="94"/>
+            <line x1="6" y1="50" x2="94" y2="50"/>
+            <line x1="18.9" y1="18.9" x2="81.1" y2="81.1"/>
+            <line x1="81.1" y1="18.9" x2="18.9" y2="81.1"/>
+            <line x1="50" y1="17.6" x2="50" y2="82.4" transform="rotate(30 50 50)"/>
+            <line x1="17.6" y1="50" x2="82.4" y2="50" transform="rotate(30 50 50)"/>
+            <line x1="50" y1="17.6" x2="50" y2="82.4" transform="rotate(60 50 50)"/>
+            <line x1="17.6" y1="50" x2="82.4" y2="50" transform="rotate(60 50 50)"/>
+          </g>
+        </svg>
       </div>
-
-      <section id="azaadi" class="card azaadi" aria-labelledby="azaadi-title">
-        <h2 id="azaadi-title">🇮🇳 Sounds of Azaadi</h2>
-        <p class="muted azaadi__intro">
-          Eight songs that carried a nation — from the 1962 war years to modern anthems.
-          We never host audio: each track plays on the platform you choose, on your tap.
-        </p>
-        <div id="azaadi-list" class="azaadi-list"></div>
-      </section>
-    </section>
-
-    <!-- ============ STATION ============ -->
-    <section id="view-station" class="view hidden">
-      <header class="station-head">
-        <button id="btn-back" class="btn btn--ghost btn--sm" title="Back to home">← Home</button>
-        <div class="station-head__meta">
-          <h1 id="station-title">Station</h1>
-          <p class="muted"><span id="station-theme"></span> · code <button id="btn-copy" class="code-chip" title="Copy the share link">#<span id="station-code"></span> ⧉</button></p>
-        </div>
-        <div class="station-head__right">
-          <span id="sync-badge" class="sync-badge hidden" role="status"></span>
-          <span id="conn-pill" data-state="connecting" role="status">● Connecting…</span>
-          <span id="member-count" class="members-pill" title="people in the station">0 👥</span>
-        </div>
-      </header>
-
-      <div id="station-error" class="station-error card hidden" role="alert">
-        <h2>⚠️ Station unreachable</h2>
-        <p id="station-error-text" class="muted"></p>
-        <div class="row">
-          <button id="station-error-back" class="btn btn--primary">← Back to home</button>
-        </div>
-      </div>
-
-      <div class="station-grid">
-        <div id="now-playing" class="card now-playing">
-          <h2>Now playing</h2>
-          <div class="np">
-            <div id="vinyl" class="vinyl" aria-hidden="true"><div class="vinyl__hole"></div></div>
-            <div class="np__body">
-              <div class="np__title">Nothing on the air</div>
-              <div class="np__sub muted">Add a track to start the vibe</div>
-              <div class="np__meta">
-                <span id="elapsed" class="np__elapsed">00:00</span>
-                <span class="muted" id="track-loading" role="status">… buffering</span>
-              </div>
-              <div class="progress" role="progressbar" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress" class="progress__bar"></div></div>
-            </div>
-          </div>
-          <div class="controls">
-            <button id="btn-prev" class="btn btn--ghost" disabled title="Previous track">⏮</button>
-            <button id="btn-play" class="btn btn--primary" disabled>▶ Play</button>
-            <button id="btn-next" class="btn btn--ghost" disabled title="Next track">⏭</button>
-            <button id="btn-bump" class="btn btn--ghost" title="Skip everyone forward 10s (demo re-sync)">⇥ +10s</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2>Queue <span class="muted">(anyone can add a track)</span></h2>
-          <ul id="queue-list" class="queue"></ul>
-          <p id="queue-empty" class="muted">The airwaves are empty. Add a track below — everyone in the station will hear it in sync.</p>
-          <div class="add-track">
-            <label class="sr-only" for="track-url">Direct audio link</label>
-            <input id="track-url" placeholder="Direct audio link (mp3/ogg/m4a/webm/wav)" />
-            <div class="row">
-              <label class="sr-only" for="track-title">Track title</label>
-              <input id="track-title" placeholder="Track title" />
-              <label class="sr-only" for="track-artist">Artist</label>
-              <input id="track-artist" placeholder="Artist" />
-            </div>
-            <button id="btn-add-track" class="btn btn--primary btn--block">Add to queue</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="station-grid">
-        <div class="card">
-          <h2>🚀 Ready-made vibes <span class="muted">(free demo audio)</span></h2>
-          <div id="curated-list" class="curated-list"></div>
-        </div>
-        <div class="card">
-          <h2>Who's in the station</h2>
-          <ul id="members-list" class="members"><li class="member member--empty">Joining…</li></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ OVERLAYS ============ -->
-    <div id="unmute-overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="unmute-title">
-      <div class="overlay__card">
-        <div class="vinyl vinyl--lg spin" aria-hidden="true"><div class="vinyl__hole"></div></div>
-        <h2 id="unmute-title">Tap to hear the station</h2>
-        <p class="muted">Your browser needs one tap before audio can start.</p>
-        <button id="btn-unmute" class="btn btn--primary">🔊 Join the sound</button>
-      </div>
+      <p class="hero__kicker">15 August 2026 · 80th Independence Day</p>
+      <h1 class="hero__title">80 Years of <em>Freedom</em></h1>
+      <p class="hero__sub">From the midnight hour of 1947 to the India of today — a tribute to the journey,
+        the people who made it, and the songs that carried a nation.</p>
+      <nav class="hero__nav" aria-label="Page sections">
+        <a class="btn btn--primary" href="#journey">The journey</a>
+        <a class="btn btn--ghost" href="#songs">Songs of freedom</a>
+        <a class="btn btn--ghost" href="#tribute">Send a tribute</a>
+      </nav>
     </div>
+  </header>
 
-    <div id="toast" class="toast hidden" role="status"></div>
-  </div>
+  <main class="app">
 
-  <!-- Runtime deployment config — generated by scripts/gen-config.js.
-       Plain script so it is available to the module below. Empty = same origin. -->
-  <script src="/rr-config.js"></script>
+    <!-- ============ TRYST WITH DESTINY ============ -->
+    <section id="tryst" class="section tryst" aria-labelledby="tryst-title">
+      <h2 id="tryst-title" class="section__title">The Tryst with Destiny</h2>
+      <p class="tryst__meta">Jawaharlal Nehru · Constituent Assembly · 14–15 August 1947</p>
+      <div id="tryst-body" class="tryst__body"></div>
+      <p class="tryst__footnote">Excerpts from the midnight address. A government work of the Republic of India, now in the public domain.</p>
+    </section>
+
+    <!-- ============ TIMELINE ============ -->
+    <section id="journey" class="section timeline-section" aria-labelledby="journey-title">
+      <h2 id="journey-title" class="section__title">The journey in eight moments</h2>
+      <p class="section__lead">1857 to 1947 — ninety years that changed the world.</p>
+      <ol id="timeline" class="timeline"></ol>
+    </section>
+
+    <!-- ============ FREEDOM FIGHTERS ============ -->
+    <section id="fighters" class="section fighters-section" aria-labelledby="fighters-title">
+      <h2 id="fighters-title" class="section__title">The people who made it</h2>
+      <p class="section__lead">Six among thousands — each a different road to the same freedom.</p>
+      <div id="fighters" class="fighters"></div>
+    </section>
+
+    <!-- ============ QUOTES ============ -->
+    <section id="words" class="section quotes-section" aria-labelledby="words-title">
+      <h2 id="words-title" class="section__title">Words that carried a nation</h2>
+      <div id="quotes" class="quotes"></div>
+    </section>
+
+    <!-- ============ SOUNDS OF AZAADI ============ -->
+    <section id="songs" class="section azaadi" aria-labelledby="songs-title">
+      <h2 id="songs-title" class="section__title">Sounds of Azaadi</h2>
+      <p class="section__lead azaadi__intro">
+        Eight songs that carried a nation — from the 1962 war years to modern anthems.
+        We never host audio: each track plays on the platform you choose, on your tap.
+      </p>
+      <div id="azaadi-list" class="azaadi-list"></div>
+    </section>
+
+    <!-- ============ TRIBUTE CARD ============ -->
+    <section id="tribute" class="section tribute-section" aria-labelledby="tribute-title">
+      <h2 id="tribute-title" class="section__title">Send your tribute</h2>
+      <p class="section__lead">Create a personal Independence Day card and share it with the people you love.</p>
+      <div class="tribute-grid">
+        <form id="tribute-form" class="tribute-form">
+          <label class="field" for="tribute-name"><span>Your name</span>
+            <input id="tribute-name" name="name" maxlength="40" placeholder="e.g. Ananya Sharma" required />
+          </label>
+          <label class="field" for="tribute-note"><span>A wish for India (optional)</span>
+            <textarea id="tribute-note" name="note" maxlength="140" rows="3" placeholder="e.g. To the freedom that lets us dream — Jai Hind!"></textarea>
+          </label>
+          <button type="submit" class="btn btn--primary btn--block">Create my tribute card</button>
+        </form>
+        <div class="tribute-preview">
+          <div id="tribute-card" class="tribute-card" aria-live="polite">
+            <div class="tribute-card__band tribute-card__band--saffron"></div>
+            <div class="tribute-card__band tribute-card__band--white"></div>
+            <div class="tribute-card__band tribute-card__band--green"></div>
+            <p class="tribute-card__kicker">80th Independence Day · 15 August 2026</p>
+            <p class="tribute-card__salute">salutes the spirit of a free India</p>
+            <p id="tribute-card-name" class="tribute-card__name">Your name</p>
+            <p id="tribute-card-note" class="tribute-card__note">Your wish for India appears here.</p>
+            <p class="tribute-card__jai">🇮🇳 Jai Hind</p>
+          </div>
+          <div id="tribute-actions" class="tribute-actions hidden">
+            <button id="btn-share" class="btn btn--primary">Share</button>
+            <button id="btn-copy" class="btn btn--ghost">Copy message</button>
+            <a id="btn-whatsapp" class="btn btn--ghost" href="#" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>80 Years of Freedom — a tribute for the 80th Independence Day of India, 15 August 2026.</p>
+    <p class="footer__muted">Jai Hind 🇮🇳 · Content is historical and educational; songs link to their official platforms.</p>
+  </footer>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+
   <script type="module" src="/app.js"></script>
 </body>
 </html>

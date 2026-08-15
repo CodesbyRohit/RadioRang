@@ -1,24 +1,21 @@
 {
   "name": "radio-rang",
-  "version": "1.0.0",
-  "description": "One Station, Any Vibe — anyone can spin up a themed station; every device that joins hears the same track, in sync, even on flaky wifi.",
+  "version": "2.0.0",
+  "description": "80 Years of Freedom — an Independence Day tribute to the journey from 1857 to 1947, the people who made it, and the songs that carried a nation.",
   "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "build": "tsc -p tsconfig.json && node scripts/gen-config.js",
-    "test": "node --test lib/sync/clock.test.ts",
-    "e2e": "node e2e-sync.js && node e2e-azaadi.js && node e2e-routing.js"
+    "test": "node --test test-data.mjs",
+    "e2e": "node e2e-tribute.js && node e2e-azaadi.js && node e2e-links.js"
   },
   "engines": {
-    "node": ">=24 <25"
+    "node": ">=18"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "ws": "^8.18.0"
+    "express": "^4.19.2"
   },
   "devDependencies": {
-    "playwright-core": "^1.62.1",
-    "typescript": "5.9.3"
+    "playwright-core": "^1.62.1"
   }
 }

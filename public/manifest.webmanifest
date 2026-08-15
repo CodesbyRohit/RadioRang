@@ -1,11 +1,11 @@
 {
-  "name": "RadioRang — One Station, Any Vibe",
-  "short_name": "RadioRang",
-  "description": "Anyone can spin up a themed station; every device that joins hears the same track, in sync, even on flaky wifi.",
+  "name": "80 Years of Freedom — India at 80",
+  "short_name": "80 Years",
+  "description": "An Independence Day tribute to the journey from 1857 to 1947, the people who made it, and the songs that carried a nation. 15 August 2026.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#14100c",
-  "theme_color": "#14100c",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
   "icons": [
     {
       "src": "/icon.svg",
