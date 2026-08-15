@@ -7,7 +7,7 @@
 
 const SHELL_CACHE = 'rr-shell-v1';
 const AUDIO_CACHE = 'rr-audio-v1';
-const SHELL = ['/', '/index.html', '/app.js', '/styles.css', '/manifest.webmanifest', '/lib/sync/clock.js'];
+const SHELL = ['/', '/index.html', '/app.js', '/styles.css', '/manifest.webmanifest', '/lib/sync/clock.js', '/data/azaadi.js'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

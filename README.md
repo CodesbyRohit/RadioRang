@@ -79,6 +79,29 @@ handy same-device accelerator; not required for correctness.)
 
 Run it yourself: `node e2e-sync.js` (uses your installed Chrome).
 
+### 🇮🇳 Sounds of Azaadi
+
+A curated shelf of eight historically and culturally significant Indian
+patriotic songs — from Lata Mangeshkar's *Aye Mere Watan Ke Logo* (1963) to
+Arijit Singh's *Ae Watan* (Raazi, 2018) — each with its story, plus platform
+actions for **Spotify, JioSaavn and Gaana** wherever a valid link exists.
+
+Copyright compliance (by design):
+
+- The site **never downloads, rehosts, or redistributes** these recordings —
+  no audio files live in this repo.
+- Spotify playback uses **Spotify's official embed mechanism**
+  (`open.spotify.com/embed/track/<id>`); every track id was verified against
+  Spotify's public oEmbed endpoint and every JioSaavn/Gaana URL was verified
+  to resolve to the real song page in a browser (`node e2e-links.js`).
+- Playback is always **user-initiated and platform-controlled** — the
+  platform's own player does the work.
+- Where no valid link exists (e.g. Gaana only has a dandia remix of
+  *Sandese Aate Hain*), the button is simply omitted.
+
+Data lives in `public/data/azaadi.js`; rendered by `renderAzaadi()` in
+`public/app.js`.
+
 ### Load-bearing code (judge-facing paths)
 
 The clock math lives in the canonical module the problem brief names:
@@ -107,9 +130,12 @@ lib/sync/clock.ts         canonical clock module (estimateOffset / elapsedAt)
 lib/sync/clock.test.ts    unit tests for the clock
 public/index.html         single-page app (create/join/station)
 public/app.js             sync engine, reconnect, UI (imports lib/sync/clock.js)
+public/data/azaadi.js     curated patriotic-song shelf (links + Spotify embed ids)
 public/sw.js              service worker (shell + audio caching)
 public/styles.css         jukebox aesthetic
 e2e-sync.js               Playwright end-to-end verification
+e2e-azaadi.js             Playwright check for the Azaadi shelf
+e2e-links.js              verifies all JioSaavn/Gaana links in a real browser
 test-sync.js              WebSocket protocol smoke test
 ```
 

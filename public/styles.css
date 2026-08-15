@@ -167,6 +167,39 @@ input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(255, 179, 7
 .curated__vibe { color: var(--amber); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; }
 .curated__artist { color: var(--muted); font-size: 0.78rem; }
 
+/* ---------- Sounds of Azaadi ---------- */
+.azaadi { margin-top: 26px; border: 1px solid rgba(255, 179, 71, 0.25); }
+.azaadi h2 { color: var(--amber); }
+.azaadi__intro { margin: -6px 0 16px; font-size: 0.9rem; }
+
+.azaadi-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 780px) { .azaadi-list { grid-template-columns: 1fr; } }
+
+.song {
+  background: #191309; border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 15px; display: flex; flex-direction: column; gap: 9px;
+}
+.song__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.song__titles h3 { font-size: 0.98rem; }
+.song__artist { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
+.song__era {
+  flex-shrink: 0; font-size: 0.68rem; color: #2e6b34; background: rgba(90, 214, 125, 0.12);
+  border: 1px solid rgba(90, 214, 125, 0.3); padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+}
+.song__context { color: var(--muted); font-size: 0.83rem; line-height: 1.45; }
+.song__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.pl {
+  display: inline-block; font-size: 0.8rem; font-weight: 600; text-decoration: none;
+  padding: 7px 13px; border-radius: 999px; border: 1px solid transparent; transition: transform 0.06s ease, opacity 0.15s;
+}
+.pl:hover { opacity: 0.85; transform: translateY(-1px); }
+.pl--spotify { background: #1db954; color: #04150a; }
+.pl--jiosaavn { background: #1d4ed8; color: #fff; }
+.pl--gaana { background: #b91c1c; color: #fff; }
+
+.azaadi__embed { border: 0; border-radius: 8px; margin-top: 2px; background: #0e0a06; }
+
 /* ---------- members ---------- */
 .members { list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .member { display: flex; align-items: center; gap: 8px; font-size: 0.92rem; }

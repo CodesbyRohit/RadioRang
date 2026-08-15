@@ -12,6 +12,7 @@
 'use strict';
 
 import { estimateOffset, elapsedAt } from '/lib/sync/clock.js';
+import { AZAADI } from '/data/azaadi.js';
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => [...document.querySelectorAll(sel)];
@@ -412,6 +413,41 @@ function toast(msg) {
 }
 
 /* ---------------------------------------------------------------- *
+ *  Sounds of Azaadi shelf (platform links + official Spotify embeds)
+ * ---------------------------------------------------------------- */
+function renderAzaadi() {
+  const list = $('#azaadi-list');
+  if (!list) return;
+  list.innerHTML = AZAADI.map((s) => {
+    const actions = [];
+    if (s.spotifyTrackId) {
+      actions.push(`<a class="pl pl--spotify" href="https://open.spotify.com/track/${s.spotifyTrackId}" target="_blank" rel="noopener">▶ Spotify</a>`);
+    }
+    if (s.jiosaavn) {
+      actions.push(`<a class="pl pl--jiosaavn" href="${esc(s.jiosaavn)}" target="_blank" rel="noopener">♪ JioSaavn</a>`);
+    }
+    if (s.gaana) {
+      actions.push(`<a class="pl pl--gaana" href="${esc(s.gaana)}" target="_blank" rel="noopener">♫ Gaana</a>`);
+    }
+    const embed = s.spotifyTrackId
+      ? `<iframe class="azaadi__embed" src="https://open.spotify.com/embed/track/${s.spotifyTrackId}?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="${esc(s.title)} — listen on Spotify"></iframe>`
+      : '';
+    return `<article class="song">
+      <div class="song__head">
+        <div class="song__titles">
+          <h3>${esc(s.title)}</h3>
+          <p class="song__artist">${esc(s.artist)} · ${esc(s.year)}</p>
+        </div>
+        <span class="song__era">${esc(s.era)}</span>
+      </div>
+      <p class="song__context">${esc(s.context)}</p>
+      <div class="song__actions">${actions.join('')}</div>
+      ${embed}
+    </article>`;
+  }).join('');
+}
+
+/* ---------------------------------------------------------------- *
  *  Boot
  * ---------------------------------------------------------------- */
 function esc(s) {
@@ -467,6 +503,9 @@ async function boot() {
   $$('.curated').forEach((b) => b.addEventListener('click', () => {
     addCurated(b.dataset.url, b.dataset.title, b.dataset.artist, b.dataset.vibe);
   }));
+
+  // Sounds of Azaadi shelf
+  renderAzaadi();
 
   // auto-join when arriving with ?code=
   const params = new URLSearchParams(location.search);
