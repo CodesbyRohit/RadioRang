@@ -130,13 +130,16 @@ body {
   background: linear-gradient(180deg, var(--card), var(--ink-2));
   border: 1px solid var(--line); border-radius: 14px;
   padding: 16px; display: flex; flex-direction: column; gap: 9px;
+  min-width: 0; /* let the grid track shrink; long era chips wrap instead of overflowing */
 }
-.song__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.song__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; min-width: 0; }
+.song__titles { min-width: 0; }
 .song__titles h3 { font-size: 0.98rem; }
 .song__artist { color: var(--muted); font-size: 0.78rem; margin-top: 2px; }
 .song__era {
-  flex-shrink: 0; font-size: 0.68rem; color: var(--green-2); background: rgba(19, 136, 8, 0.16);
-  border: 1px solid rgba(111, 220, 125, 0.35); padding: 3px 9px; border-radius: 999px; white-space: nowrap;
+  font-size: 0.68rem; color: var(--green-2); background: rgba(19, 136, 8, 0.16);
+  border: 1px solid rgba(111, 220, 125, 0.35); padding: 3px 9px; border-radius: 999px; white-space: normal;
+  max-width: 45%; text-align: right;
 }
 .song__context { color: var(--muted); font-size: 0.83rem; line-height: 1.5; }
 .song__actions { display: flex; gap: 8px; flex-wrap: wrap; }

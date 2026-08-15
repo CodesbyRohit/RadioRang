@@ -66,10 +66,45 @@ if (!waHref || !waHref.startsWith('https://wa.me/?text=') || !decodeURIComponent
 }
 console.log('PASS: tribute card — personalized card + share actions + WhatsApp link');
 
-// Reduced-motion static fallback works (reveal elements are visible regardless)
-await sleep(300);
-const anyRevealHidden = await page.locator('.reveal:not(.in-view)').count();
-console.log(anyRevealHidden === 0 ? 'PASS: all scroll-reveal sections settled visible' : `note: ${anyRevealHidden} reveal elements pending (below fold)`);
+// --- Mobile layout: no horizontal overflow at 375px ---
+const mobile = await browser.newPage({ viewport: { width: 375, height: 700 } });
+await mobile.goto(BASE);
+const overflow = await mobile.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+if (overflow > 1) throw new Error(`mobile layout overflows by ${overflow}px`);
+const songColsMobile = await mobile.evaluate(() => getComputedStyle(document.querySelector('.azaadi-list')).gridTemplateColumns.split(' ').length);
+if (songColsMobile !== 1) throw new Error('azaadi list should be single column on mobile');
+console.log('PASS: mobile 375px layout — no overflow, single-column sections');
+await mobile.close();
+
+// --- prefers-reduced-motion: content still fully visible, no animation needed ---
+const reduced = await browser.newPage({ reducedMotion: 'reduce' });
+await reduced.goto(BASE);
+await reduced.waitForSelector('.song');
+const revealVisible = await reduced.evaluate(() => {
+  const el = document.querySelector('.timeline li');
+  const cs = getComputedStyle(el);
+  return { opacity: cs.opacity, transform: cs.transform };
+});
+if (revealVisible.opacity !== '1') throw new Error(`reduced-motion reveal should be visible, opacity=${revealVisible.opacity}`);
+console.log('PASS: prefers-reduced-motion — content visible without animation');
+await reduced.close();
+
+// --- Keyboard navigation: skip link first, hero nav links focusable ---
+// Fresh load (also re-verifies refresh) — Tab from the address bar must land on
+// the skip link first, then the hero nav.
+await page.goto(BASE);
+await page.waitForSelector('.song');
+await page.keyboard.press('Tab');
+const focused = await page.evaluate(() => ({ tag: document.activeElement.tagName, cls: document.activeElement.className, href: document.activeElement.getAttribute('href') }));
+if (focused.href !== '#main' && !(focused.cls || '').includes('skip-link')) throw new Error(`first Tab should focus the skip link, got ${JSON.stringify(focused)}`);
+const navFocus = await page.evaluate(() => {
+  const nav = document.querySelector('.hero__nav');
+  const link = nav.querySelector('a');
+  link.focus();
+  return document.activeElement === link && getComputedStyle(link).outlineStyle !== 'none';
+});
+if (!navFocus) throw new Error('hero nav link should be keyboard-focusable with a visible outline');
+console.log('PASS: keyboard navigation — skip link + visible focus on nav links');
 
 if (errors.length) {
   console.log('page errors:', errors.slice(0, 5));
