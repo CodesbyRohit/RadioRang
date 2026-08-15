@@ -4,6 +4,7 @@ import { WebSocketServer } from 'ws';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
+import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3000;
@@ -155,10 +156,15 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }));
-// The canonical station-clock module lives in lib/sync (clock.ts + compiled clock.js).
-// (The production build also copies it into public/lib so static-only hosts like
-// Vercel can serve it without this mount.)
-app.use('/lib', express.static(path.join(__dirname, 'lib')));
+// The canonical station-clock module is compiled by `npm run build` (tsc -p
+// tsconfig.json) into dist/lib/sync/clock.js and served here at the same
+// public URL (/lib/sync/clock.js) the client imports. The build also copies it
+// into public/lib for static-only hosts (e.g. Vercel) that have no /lib mount.
+const compiledClock = path.join(__dirname, 'dist', 'lib', 'sync', 'clock.js');
+if (!fs.existsSync(compiledClock)) {
+  console.warn('[start] dist/lib/sync/clock.js not found — run `npm run build` before starting.');
+}
+app.use('/lib', express.static(path.join(__dirname, 'dist', 'lib')));
 
 // SPA fallback: /station/<code> (and /station/) must serve the app shell so
 // direct navigation, refresh, and share links all work.

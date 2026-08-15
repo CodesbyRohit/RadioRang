@@ -6,12 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "build": "tsc lib/sync/clock.ts --module esnext --target es2022 --moduleResolution bundler --outDir lib/sync --declaration && node scripts/gen-config.js",
+    "build": "tsc -p tsconfig.json && node scripts/gen-config.js",
     "test": "node --test lib/sync/clock.test.ts",
     "e2e": "node e2e-sync.js && node e2e-azaadi.js && node e2e-routing.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=24 <25"
   },
   "dependencies": {
     "express": "^4.19.2",
@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "playwright-core": "^1.62.1",
-    "typescript": "^7.0.2"
+    "typescript": "5.9.3"
   }
 }

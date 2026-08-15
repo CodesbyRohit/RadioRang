@@ -41,12 +41,12 @@ console.log('[gen-config] public/rr-config.js written:', JSON.stringify(config))
 
 // Copy the compiled clock module into public/lib so static-only hosts
 // (e.g. Vercel) can serve /lib/sync/clock.js without the Node server.
-const src = path.join(root, 'lib', 'sync', 'clock.js');
+const src = path.join(root, 'dist', 'lib', 'sync', 'clock.js');
 const destDir = path.join(publicDir, 'lib', 'sync');
 if (fs.existsSync(src)) {
   fs.mkdirSync(destDir, { recursive: true });
   fs.copyFileSync(src, path.join(destDir, 'clock.js'));
-  console.log('[gen-config] copied lib/sync/clock.js -> public/lib/sync/clock.js');
+  console.log('[gen-config] copied dist/lib/sync/clock.js -> public/lib/sync/clock.js');
 } else {
-  console.warn('[gen-config] WARNING: lib/sync/clock.js not found — run the tsc step first (npm run build does both).');
+  console.warn('[gen-config] WARNING: dist/lib/sync/clock.js not found — run the tsc step first (npm run build does both).');
 }
